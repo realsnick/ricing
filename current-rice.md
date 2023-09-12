@@ -4,16 +4,18 @@
 
 - [ ] setup obs on laptop and stream directly from laptop. 
 
-- [ ] repl development for nixpkgs
-
-- [ ] CONTRIBUTE: nix os package for https://www.binderus.com/#/ 
-
-- [ ] QHY SDK package
+- [ ] development enviornment for nixpkgs
   
-  - [ ] build the package - device should be detected by `lsusb` 
+  - [x] nix build -A qhyccd_sdk
+
+- [x] QHY SDK package
+  
+  - [x] build the package for x86_64 - device should be detected by `lsusb
+  - [x] helptest the package locally
+  - [ ] build the package for arm64
   - [ ] test the packapge ont he rpi-5+
     - [ ] clone the sky360 repository and use nixos-rebuild
-  - [ ] submit PR
+  - [x] submit PR
     - [ ] PR Accepted
   - [ ] Release SD Images automatically
     - [ ] orange pi 5
@@ -24,8 +26,11 @@
 ## stretch
 
 - [ ] sort google drive
+
 - [ ] sort one drive
+
 - [ ] sort apple icloud drive
+
 - [ ] setup netboot to boot nixos-installer 
 
 - [ ]...
@@ -34,9 +39,48 @@
 
 need to fix DMCA Music on twitch...
 
-## open bugs
+for udev rules this is the option. 
+
+require the user of the package to add the following line in configuration.nix
+
+```nix
+services.udev.packages = [ pkgs.qhyccd_sdk ];
+```
+
+1. # open bugs
+- [x] /sbin/fxload not found/installed 
+  
+  fixed substituteInPlace --replace
+
+- [x] ldconfig: Can't create temporary cache file /nix/store/lqz6hmd86viw83f9qll2ip87jhb7p1ah-glibc-2.35-224/etc/ld.so.cache~: Permission denied
+  
+  this is related to not running udev rules... 
+
+- [ ] stylix - broken due to fonts
+
+- [ ] hyprland broken - error: attribute 'gcc13Stdenv' missing
+  
+  this is due update the local flake with recent nixpkgs which seems broken...will investigate this issue
+  
+  [error: attribute 'gcc13Stdenv' missing · Issue #92 · hyprwm/xdg-desktop-portal-hyprland (github.com)](https://github.com/hyprwm/xdg-desktop-portal-hyprland/issues/92)
+
+- [x] /sbin/fxload is called in udev rules but is not executable or does not exist
+  
+  had to patch the udev rules files to find fxload in nix store
+
+- [x] /bin/sleep is called in udev rules but is not executable or does not exist
+
+- [x] camera firmware isn't being uploaded - udev rules issue
+  
+  more patched to the udev-rules, looks like the qhy ccd has a built in fxload that has different parameters then the libusb1 fxload (-d on libusb1 required vendor:product, -D on qhyccd sdk requires -D DEVNAME)
 
 ## followers request
+
+## need to learn
+
+- [ ] helix editor
+
+- [ ] git branch work - sync from remote / master
 
 ## future
 
@@ -61,5 +105,3 @@ need to fix DMCA Music on twitch...
 - [ ] look at https://www.omg.org/about/index.htm
 
 # contribution
-
-- [ ] orange pi 5 nixos installer + nix-install, nixos-anywhere, nix-generators - https://github.com/ryan4yin/nixos-rk3588/issues/7
