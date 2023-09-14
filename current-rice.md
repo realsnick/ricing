@@ -11,19 +11,29 @@
 - [x] QHY SDK package
   
   - [x] build the package for x86_64 - device should be detected by `lsusb
+  
   - [x] helptest the package locally
+  
   - [x] build the package for arm64
+  
   - [x] test the packapge on the rpi-5+
+    
     - [x] clone the sky360 repository and use nixos-rebuild
+  
   - [x] submit PR
+    
     - [ ] PR Accepted
+  
   - [x] Release Manual SD Images - and here is https://github.com/Sky360-Repository/sky360/releases/tag/alpha-2
+    
     - [ ] orange pi 5 plus
     - [ ] orange pi 5
     - [ ] Rock 5A
     - [ ] Raspberry pi 4
     - [ ] x86_64-linux
+  
   - [ ] Release SD Images automatically 
+    
     - [ ] setup secrets - require for the github-runner..
       
       - [ ] research [Comparison of secret managing schemes - NixOS Wiki](https://nixos.wiki/wiki/Comparison_of_secret_managing_schemes)
@@ -33,6 +43,7 @@
       - [ ] package sops-nix [Mic92/sops-nix: Atomic secret provisioning for NixOS based on sops (github.com)](https://github.com/Mic92/sops-nix)
       
       - [ ] how to manage secrets with nixos anywhere [nixos-anywhere/docs/howtos.md at main · numtide/nixos-anywhere (github.com)](https://github.com/numtide/nixos-anywhere/blob/main/docs/howtos.md#secrets-and-full-disk-encryption)
+    
     - [ ] [nixpkgs/pkgs/development/tools/continuous-integration/github-runner/default.nix at nixos-23.05 · NixOS/nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/development/tools/continuous-integration/github-runner/default.nix#L296)
       
       ```nix
@@ -45,6 +56,7 @@
       
         systemd.services.github-runner.serviceConfig.SupplementaryGroups = [ "docker" ];
       ```
+    
     - [ ] CI using github actions - [Continuous Integration with GitHub Actions — nix.dev documentation](https://nix.dev/tutorials/nixos/continuous-integration-github-actions) 
 
 ## stretch
@@ -80,9 +92,9 @@ services.udev.packages = [ pkgs.qhyccd_sdk ];
   
   this is related to not running udev rules... 
 
-- [ ] stylix - broken due to fonts
+- [x] stylix - broken due to fonts
 
-- [ ] hyprland broken - error: attribute 'gcc13Stdenv' missing
+- [x] hyprland broken - error: attribute 'gcc13Stdenv' missing
   
   this is due update the local flake with recent nixpkgs which seems broken...will investigate this issue
   
@@ -109,8 +121,8 @@ services.udev.packages = [ pkgs.qhyccd_sdk ];
   - [ ] testing orange pi 5 plus
   
   - [ ] testing orange pi 5
-  
-  
+
+- [ ] no Window Capture in OBS Studio 
 
 ## followers request
 
@@ -122,6 +134,12 @@ services.udev.packages = [ pkgs.qhyccd_sdk ];
 
 ## future
 
+- [ ] setup laptop
+  
+  - [ ] rofi
+  
+  - [ ] overlay window:
+
 - [ ] setup development enviornment 
   
   - [ ] research using - http://devenv.sh 
@@ -129,6 +147,7 @@ services.udev.packages = [ pkgs.qhyccd_sdk ];
   - [ ] research [Set up a development environment — nix.dev documentation](https://nix.dev/tutorials/first-steps/dev-environment) 
   
   - [ ] research [Development Environments on NixOS | NixOS & Flakes Book (thiscute.world)](https://nixos-and-flakes.thiscute.world/development/intro) 
+  
   - [ ] ros2
   
   - [ ] C++
