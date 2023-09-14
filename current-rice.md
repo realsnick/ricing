@@ -2,9 +2,9 @@
 
 ## Current Rice - QHY_CCD SDK NixOS Package
 
-- [ ] setup obs on laptop and stream directly from laptop. 
+- [x] setup obs on laptop.
 
-- [ ] development enviornment for nixpkgs
+- [x] development enviornment for nixpkgs
   
   - [x] nix build -A qhyccd_sdk
 
@@ -12,16 +12,40 @@
   
   - [x] build the package for x86_64 - device should be detected by `lsusb
   - [x] helptest the package locally
-  - [ ] build the package for arm64
-  - [ ] test the packapge ont he rpi-5+
-    - [ ] clone the sky360 repository and use nixos-rebuild
+  - [x] build the package for arm64
+  - [x] test the packapge on the rpi-5+
+    - [x] clone the sky360 repository and use nixos-rebuild
   - [x] submit PR
     - [ ] PR Accepted
-  - [ ] Release SD Images automatically
-    - [ ] orange pi 5
+  - [x] Release Manual SD Images - and here is https://github.com/Sky360-Repository/sky360/releases/tag/alpha-2
     - [ ] orange pi 5 plus
-    - [ ] rk3588
-    - [ ] raspberry pi 4 
+    - [ ] orange pi 5
+    - [ ] Rock 5A
+    - [ ] Raspberry pi 4
+    - [ ] x86_64-linux
+  - [ ] Release SD Images automatically 
+    - [ ] setup secrets - require for the github-runner..
+      
+      - [ ] research [Comparison of secret managing schemes - NixOS Wiki](https://nixos.wiki/wiki/Comparison_of_secret_managing_schemes)
+      
+      - [ ] research nixos recommendations
+      
+      - [ ] package sops-nix [Mic92/sops-nix: Atomic secret provisioning for NixOS based on sops (github.com)](https://github.com/Mic92/sops-nix)
+      
+      - [ ] how to manage secrets with nixos anywhere [nixos-anywhere/docs/howtos.md at main · numtide/nixos-anywhere (github.com)](https://github.com/numtide/nixos-anywhere/blob/main/docs/howtos.md#secrets-and-full-disk-encryption)
+    - [ ] [nixpkgs/pkgs/development/tools/continuous-integration/github-runner/default.nix at nixos-23.05 · NixOS/nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/development/tools/continuous-integration/github-runner/default.nix#L296)
+      
+      ```nix
+       services.github-runner.enable = true;
+        services.github-runner.url = "https://github.com/ORG_NAME";
+        services.github-runner.tokenFile = config.sops.secrets."github-runner/token".path;
+        services.github-runner.extraPackages = with pkgs; [ config.virtualisation.docker.package ];
+      
+        virtualisation.docker.enable = true;
+      
+        systemd.services.github-runner.serviceConfig.SupplementaryGroups = [ "docker" ];
+      ```
+    - [ ] CI using github actions - [Continuous Integration with GitHub Actions — nix.dev documentation](https://nix.dev/tutorials/nixos/continuous-integration-github-actions) 
 
 ## stretch
 
@@ -74,6 +98,20 @@ services.udev.packages = [ pkgs.qhyccd_sdk ];
   
   more patched to the udev-rules, looks like the qhy ccd has a built in fxload that has different parameters then the libusb1 fxload (-d on libusb1 required vendor:product, -D on qhyccd sdk requires -D DEVNAME)
 
+- [ ] trace: warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash.
+  
+  [trace: warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash. · Issue #254807 · NixOS/nixpkgs (github.com)](https://github.com/NixOS/nixpkgs/issues/254807)
+
+- [ ] fixed qhyccd sdk package PR - [qhyccd_sdk: init at 23.09.06 by realsnick · Pull Request #254714 · NixOS/nixpkgs · GitHub](https://github.com/NixOS/nixpkgs/pull/254714)
+
+- [ ] sd image not booting for orange pi 5
+  
+  - [ ] testing orange pi 5 plus
+  
+  - [ ] testing orange pi 5
+  
+  
+
 ## followers request
 
 ## need to learn
@@ -83,6 +121,19 @@ services.udev.packages = [ pkgs.qhyccd_sdk ];
 - [ ] git branch work - sync from remote / master
 
 ## future
+
+- [ ] setup development enviornment 
+  
+  - [ ] research using - http://devenv.sh 
+  
+  - [ ] research [Set up a development environment — nix.dev documentation](https://nix.dev/tutorials/first-steps/dev-environment) 
+  
+  - [ ] research [Development Environments on NixOS | NixOS & Flakes Book (thiscute.world)](https://nixos-and-flakes.thiscute.world/development/intro) 
+  - [ ] ros2
+  
+  - [ ] C++
+  
+  - [ ] Rust
 
 - [ ] support unstable channel - currently default one is stable, only reason for stable is nvidia
 
