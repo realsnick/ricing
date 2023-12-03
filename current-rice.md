@@ -1,14 +1,68 @@
 # Welcome to my Stream!
 
-## Current Rice - Open MCT
-
-
-## still to do from QHY SDK Rice     
+## Current Rice - Open MCT [0/0]
+- [x] development enviornment reserch and selection 
+  - [x] drv-parts
+    https://github.com/DavHau/drv-parts
+    https://www.youtube.com/watch?v=AsCvRZukX0E
+    * merged to dream2nix
+  - [x] dream2nix 
+    https://github.com/nix-community/dream2nix
 - [ ] open MCT deployment 
-    - [ ] PR Accepted
+  - [x] develop
+  - [x] build
+  - [x] run
+  - [ ] nixOS service
+
+## key binding
+
+Fish - FZF
+- help - `fzf_configure_bindings --help`
+- Search Directory = `ctrl+alt+F`
+- Search Git Log = `ctrl+alt+L`
+- Search Git Status = `ctrl+alt+S`
+- search History = `ctrl+R`
+- search Processes = `ctrl+alt+P`
+- search Variables = `ctrl+V`
+
+## SETUP hyprland scratchpads
+https://github.com/librephoenix/nixos-config/blob/4db7ebb32096b8e579af36b64b5eaf00fe153cb0/user/wm/hyprland/hyprland.nix#L34 THANK YOU!!!
+
+  - [ ] scratchpads [0/0]
+    - [x] volume
+    - [x] bluetooth
+    - [x] terminal
+    - [x] mc
+    - [ ] emacs - current rice org - can't find out how to start emacs with wm_class other then Emacs
+    - [ ] music
+      - [ ] musikcube
+      - [ ] spotify - spotify fails to start
+    - [ ] merge ????
+    - [ ] serial debugger
+    - [ ] browser
+    - [ ] element
+    - [ ] network nmtui
+
+[GitHub - hyprland-community/pyprland: Simple Hyprland plugin framework [maintainer=@fdev31]](https://github.com/hyprland-community/pyprland)
+
+## SETUP hyprland special workspaces
+
+https://wiki.hyprland.org/Configuring/Dispatchers/#special-workspace
+
+https://github.com/realsnick/nix-flake/blob/2078a9fd1ef895e9b1b58ef419eb57a8c3daeede/Systems/bumblebee/modules/desktop/hyprland/home.nix#L205
+
+- [ ] Rice Workspace 
   
-  - [x] Release Manual SD Images - and here is https://github.com/Sky360-Repository/sky360/releases/tag/alpha-2
+  - [ ] take snapeshots
     
+    https://github.com/hyprland-community/awesome-hyprland
+  
+  - [ ] 
+
+## till to do from QHY SDK Rice
+
+- [ ] QHY PR Accepted 
+  - [x] Release Manual SD Images - and here is https://github.com/Sky360-Repository/sky360/releases/tag/alpha-2
     - [x] orange pi 5 plus
     - [ ] orange pi 5
     - [x] Rock 5A - not tested
@@ -19,15 +73,22 @@
 
 - [ ] sort google drive
 
-- [ ] sort one drive
+- [o] sort one drive
 
 - [ ] sort apple icloud drive
+
+- [ ] setup laptop
+  
+  - [ ] rofi
+  - [ ] overlay window:
 
 - [ ] setup netboot to boot nixos-installer 
 
 - [ ]...
 
 ## notes
+
+
 
 # issues
 

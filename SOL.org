@@ -1,0 +1,5 @@
+* Sol Foundation Conference
+
+** Avi Loeb
+- Galileo - recording data for a month now
+  - all sky, ptz, audio, passive radar, adsb

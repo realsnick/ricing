@@ -1,0 +1,342 @@
+#+title: Welcome to my Stream!
+
+* Rice - Sky360 Aloha - QHY SDK [2/3]
+- [X] QHY SDK Nix Package
+- [X] Submit PR to nixpkgs
+- [-] QHY PR Accepted
+* Rice - Sky360 Aloha - SD Image [0/1]
+- [-] Release Manual SD Images - and here is https://github.com/Sky360-Repository/sky360/releases/tag/alpha-2
+  - [X] orange pi 5 plus
+  - [ ] orange pi 5
+  - [X] Rock 5A - not tested
+  - [X] Raspberry pi 4 - not tested
+  - [ ] x86_64-linux - require restructure the NUC PR,
+* Rice - Sky360 Aloha - OpenMCT in nix [2/4]
+- [X] DONE Development Environment research and selection [2/2]
+  - [X] drv-parts
+    https://github.com/DavHau/drv-parts
+    https://www.youtube.com/watch?v=AsCvRZukX0E
+    * merged to dream2nix
+  - [X] dream2nix
+    https://github.com/nix-community/dream2nix
+- [X] open MCT deployment [4/4]
+  - [X] develop
+  - [X] build
+  - [X] run
+  - [X] nixOS service
+    https://doc.flyingcircus.io/roles/fc-22.05-dev/systemd.html
+
+- [ ] openMCT refactoring [0/2]
+  - [ ] webpack and /dist
+  - [ ] clenaup plugins
+- [ ] demo sky360 plugin
+  - [ ] ros2 websocket
+        https://github.com/RobotWebTools/rosbridge_suite
+* Rice - Sky360 - SETUP Network and pxe boot [3/6]
+- [X] Configure shitty AT&T Router to passthrough
+- [X] Isolate WiFi
+- [ ] Isolate Sky360 network
+- [X] Isolate Home network
+- [ ] Isolate Workbench network
+- [-] Setup hosting for netboot.xyz
+  - [X] docker
+  - [ ] nixos
+- setup DHCP server to
+  - [-] test boot to VM
+  - [X] setup qemu [3/3]
+    - [X] setup *br0* networing
+        networking.bridges = {
+          "br0" = {
+             interfaces = [ "enp8s0" ];
+          };
+        };
+    - [X] x64
+    - [X] arm
+  - [ ] test pxe boot physical hardware [0/4]
+    - [ ] test boot rpi-4
+    - [ ] test orange pi5 plus
+      - [ ] add orange pi5 plus ubuntu image to boot menu
+    - [ ] boot orange pi5
+      - [ ] add orange pi5 ubuntu image to boot menu
+    - [ ] test sky360 cyclop image [0/5]
+      - [ ] add sky360 cyclop images to boot menu
+      - [ ] orange pi5 plus
+      - [ ] orange pi5
+      - [ ] intel nuc
+      - [ ] rpi-4
+* Rice - Sky360 Aloha - ROS2 [2/12]
+- setup ros2 nix dev env
+  things to look:
+  - [X] nix-ros-overlay  https://github.com/lopsided98/nix-ros-overlay/tree/develop
+    - [X] build ros package - https://github.com/realsnick/nix-ros-overlay/blob/develop/distros/iron/rosb ag2-cpp/default.nix
+  - [-] in Rust
+    - [-] ros2-client - write pure rust, no ros2 dependencies
+        https://github.com/jhelovuo/RustDDS
+        https://github.com/jhelovuo/ros2-client
+      - [-] Issue - qhyccd-rs create, add support for DmaBuffer
+         https://github.com/ivonnyssen/qhyccd-rs/issues/18
+    - [-] ros2-rust - write a ros2 node in rust
+      https://github.com/ros2-rust/ros2_rust
+  - [-] r2r - write a ros2 node in rust - no ros2 dependencies
+    https://github.com/sequenceplanner/r2r
+
+- [-] create a heartbeat node
+  - [X] C++
+  - [ ] Rust
+  - [ ] openMCT Plugin
+     to run in nix-ros-overlay
+    - require `nix develop .#sky360-dev`
+    - from directory distros/iron/sky360/heartbeat/ros
+    - ros2 run sky360-ros-iron-heartbeat listener
+    - ros2 run sky360-ros-iron-heartbeat heartbeat
+- [-] create GPS Sensor
+  - [X] Rust Template
+        #+BEGIN_SRC bash
+           1. mkdir name && cd name
+           2. nix flake init --template templates#rust
+           3. cargo init
+           4. cargo build
+           5. cargo run
+           5. git add .
+           6. direnv allow
+           7. add *.gitignore* with #+BEGIN_SRC shell
+              .direnv
+              #+END_SRC
+
+    1. nix build && nix run
+
+    2.
+
+    #+END_SRC
+
+  - [-] C++ Template
+  - [-] Gps Implementation [1/9]
+    - [X] read from serial
+    - [ ] backof PID
+    - [ ] logger
+      - [ ] memory map file recorder from serial
+    - [ ] base protocol
+    - [ ](power safe mode, rate(hz), baudrate)
+        currently i have the *U-Blox AG [u-blox 7* so will focos on that
+    - [ ] enable/disable (like on/off) - requires to power off USB
+    - [ ] connect/disconnect (like start/stop)
+    - [ ] port and baud_rate
+    - [ ] status + sensor info - GPTXT?
+      https://content.u-blox.com/sites/default/files/products/documents/u-blox7-V14_ReceiverDescriptionProtocolSpec_%28GPS.G7-SW-12001%29_Public.pdf
+    - [ ] set rate - UBX-CFG-RATE
+      - [ ] test 5hz  echo -e -n '\xB5\x62\x06\x08\x06\x00\xC8\x00\x01\x00\x01\x00\xDE\x6A\xB5\x62\x06\x08\x00\x00\x0E\x30' > /dev/ttyMT0
+      - [ ] test 10hz  "B5 62 06 08 06 00 64 00 01 00 00 00 79 10"
+      - [ ] test 18hz "B5 62 06 08 06 00 37 00 01 00 00 00 4C 02"
+
+          // 0xb5, 0x62, 0x06, 0x08, 0x06, 0x00, 0xe8, 0x03, 0x01, 0x00, 0x01, 0x00, 0x01, 0x39, // 1 Hz
+          // 0xb5, 0x62, 0x06, 0x08, 0x06, 0x00, 0xc8, 0x00, 0x01, 0x00, 0x01, 0x00, 0xde, 0x6a, // 5 Hz
+          // 0xb5, 0x62, 0x06, 0x08, 0x06, 0x00, 0x64, 0x00, 0x01, 0x00, 0x01, 0x00, 0x7a, 0x12, // 10 Hz
+
+        function implementation in go https://github.com/b3nn0/stratux/blob/d7d4be46ba50d3deda770ba723d7e1648ca20004/main/gps.go#L544
+      - [ ] UBX-CFG-ANT - antenna configuration
+      - [ ] UBX-CFG-PRT - Port settings
+      - [ ] UBX-CFG-USB - USB settings
+      - [ ]
+
+
+  - [-] openMCT Plugin
+- [X] run as a service in nixos
+- [-] service can communicate with non-service and another compute on network
+  - [-] a github issue https://github.com/lopsided98/nix-ros-overlay/issues/333
+- [ ] dream2nix - add support to build ros with nix-ros-overlay
+- [ ] recorder proof of concept
+  - [ ] In memory
+    - [x] Git Commiter
+    - [x] Monitor
+    - [x] Generate Sample Sensor Data
+    - [ ] Cleanup/Prune
+
+## research
+
+- [ ] buildRosPackage nix function from nix-ros-overlay
+
+      example at https://github.com/realsnick/nix-ros-overlay/blob/develop/distros/iron/rosbag2-cpp/default.nix
+
+[x] talker/listener
+
+* Rice - personal settings
+** Keyboard key Bindings
+- [-] Setup keyboard control [8/11]
+  - [X] volume control (up/down/mute, mic mute)
+  - [-] mic mute not working on Q3 keychron (firmware?)
+  - [-] monitor brightness
+        TODO: works only on laptop
+  - [-] keyboard light
+        try to use `light` command or maybe what comes with laptop?
+  - [X] media player (next, previous, play/pause)
+  - [X] launch emacs = rofi
+  - [X] launch volume control
+  - [X] launch bluetooth UI
+  - [X] launch nmtui
+  - [X] launch mc
+  - [X] launch debugger
+** dev env
+  - [-] configure zellij - https://zellij.dev/about/
+  - [ ] note taking with helix https://blog.getreu.net/20220828-tp-note-new8/
+
+** services
+- pure-ftpd - contribute to nixOS services  https://github.com/NixOS/nixpkgs/blob/386234e2a61e1e8acf94dfa3a3d3ca19a6776efb/nixos/modules/services/continuous-integration/gitlab-runner.nix#L11
+
+  - list users pure-pw list -F ./pure-ftpd.pdb -f ./pure-ftpd.passwd
+  - add user - ppure-pw useradd test -u ftp -d /data/ftp/users -f ./pure-ftpd.passwd
+  - generate pdg file - pure-pw mkdb ./pure-ftpd.pdb -f ./pure-ftpd.passwd
+
+
+
+* Monitor placement
+using pyprland
+
+https://github.com/hyprland-community/pyprland/wiki/Plugins#monitors
+* Rice - hyprland scratchpads [0/1]
+
+https://github.com/librephoenix/nixos-config/blob/4db7ebb32096b8e579af36b64b5eaf00fe153cb0/user/wm/hyprland/hyprland.nix#L34 THANK YOU!!!
+- [-] scratchpads [5/11]
+  - [X] volume
+  - [X] bluetooth
+  - [X] network nmtui
+  - [X] terminal floating
+  - [X] mc
+  - [-] serial debugger
+    - [X] scratchpad
+    - [ ] auto kill
+  - [-] emacs - failed
+  - [ ] music
+    - [ ] musikcub
+    - [ ] spotify - failed
+  - [ ] merge ????
+  - [ ] file browser
+  - [ ] element - package issue - module not found
+
+[GitHub - hyprland-community/pyprland: Simple Hyprland plugin framework [maintainer=@fdev31]](https://github.com/hyprland-community/pyprland)
+
+** SETUP hyprland special workspaces
+
+https://wiki.hyprland.org/Configuring/Dispatchers/#special-workspace
+
+https://github.com/realsnick/nix-flake/blob/2078a9fd1ef895e9b1b58ef419eb57a8c3daeede/Systems/bumblebee/modules/desktop/hyprland/home.nix#L205
+
+- [-] Rice Workspace
+  - [ ] take snapeshots
+    https://github.com/hyprland-community/awesome-hyprland
+
+ stretch
+
+- [-] setup laptop
+  - [-] sort google drive
+  - [-] sort one drive
+  - [ ] sort apple icloud drive
+  - [ ] rofi
+  - [ ] overlay window:
+- [ ] setup netboot to boot nixos-installer
+- [ ]...
+
+* Key Bindings
+Fish - FZF
+- help - `fzf_configure_bindings --help`
+- Search Directory = `ctrl+alt+F`
+- Search Git Log = `ctrl+alt+L`
+- Search Git Status = `ctrl+alt+S`
+- search History = `ctrl+R`
+- search Processes = `ctrl+alt+P`
+- search Variables = `ctrl+V`
+
+* need to learn [0/3]
+- [-] helix editor
+- [-] git branch work - sync from remote / master
+- [-] emacs
+    - [-] org mode
+* Issues [0/4]
+- [ ] trace: warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash.
+  [trace: warning: mdadm: Neither MAILADDR nor PROGRAM has been set. This will cause the `mdmon` service to crash. · Issue #254807 · NixOS/nixpkgs (github.com)](https://github.com/NixOS/nixpkgs/issues/254807)
+- [-] sd image not booting for orange pi 5
+  - [X] testing orange pi 5 plus
+  - [ ] testing orange pi 5
+    github issue : [orange pi 5 image fails to boot · Issue #8 · ryan4yin/nixos-rk3588 (github.com)](https://github.com/ryan4yin/nixos-rk3588/issues/8)
+- [ ] github-runner jobs require node 16 which has a security risk and the nix package of github-runner uses node 20, there is an option to override it though due to security risk i didn't run it
+- [-] SD Image issues
+  - [ ] open ssh should be disabled and utilize ssh with GPG
+
+    [Setting up GnuPG + Yubikey on NixOS for SSH authentication (rzetterberg.github.io)](https://rzetterberg.github.io/yubikey-gpg-nixos.html)
+
+    ```nix
+    { config, lib, pkgs, ... }:
+
+    {
+      programs.ssh.startAgent = false;
+
+      services.pcscd.enable = true;
+
+      environment.systemPackages = with pkgs; [
+        gnupg
+        yubikey-personalization
+      ];
+
+      environment.shellInit = ''
+        gpg-connect-agent /bye
+        export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+      '';
+
+      services.udev.packages = with pkgs; [
+        yubikey-personalization
+      ];
+    }
+    ```
+  - [ ] setup ~/.secrets to use ubikey and remove the age key
+  - [X] disable sky360 user sudo access
+  - [X] auto sudo to snick - remove the need for password
+* future [1/18]
+- [ ] prompt
+  - [ ] [Starship: Cross-Shell Prompt](https://starship.rs/)
+- [ ] file system encryption
+- [X] [NixOS/disko.nix at main - NixOS - Codeberg.org](https://codeberg.org/lutzgo/NixOS/src/branch/main/hosts/flores/disko.nix)
+- [-] git as storage recorder
+- [ ] github/git-sizer: Compute various size metrics for a Git repository, flagging those that might cause problems](https://github.com/github/git-sizer)
+- [-] setup secrets - require for the github-runner..
+  - [-] setup gpg ssh
+- [ ] Themes
+  - [ ] nix-colors [http://github/misterio77/nix-colors](http://github/misterio77/nix-colors)
+  - [ ] services.rgbdaemon
+    - [ ] [NixOS/default.nix at 3a12352bdfb775f0316637de70db5c2a98e4046d - NixOS - Codeberg.org](https://codeberg.org/lutzgo/NixOS/src/commit/3a12352bdfb775f0316637de70db5c2a98e4046d/home/lgo/features/rgb/default.nix)
+
+  - [ ] [Misterio77/flavours: 🎨💧 An easy to use base16 scheme manager that integrates with any workflow. (github.com)](https://github.com/Misterio77/flavours)
+
+- [ ] nixosConfiguration - minimize and break into files
+  ```nix
+    nixosConfigurations = {
+      # Lenovo Thinpad X1-Tablet
+      your_host =  lib.nixosSystem {
+        modules = [ ./hosts/your_host ];
+        specialArgs = { inherit inputs outputs; };
+      };
+    };
+  ```
+
+- [ ] mutable OS state
+  - [ ] root '/' on tmpfs - github:nix-community/impermanence
+- [ ] setup development enviornment [0/9]
+  - [ ] use nix flake [GitHub - NixOS/templates: Flake templates](https://github.com/NixOS/templates)
+  - [ ] [NixOS/templates at main - NixOS - Codeberg.org](https://codeberg.org/lutzgo/NixOS/src/branch/main/templates)
+  - [ ] research using - http://devenv.sh
+  - [ ] research [Set up a development environment — nix.dev documentation](https://nix.dev/tutorials/first-steps/dev-environment)
+  - [ ] research [Development Environments on NixOS | NixOS & Flakes Book (thiscute.world)](https://nixos-and-flakes.thiscute.world/development/intro)
+  - [ ] ros2
+  - [ ] C++
+  - [ ] Rust
+  - [ ] Open MCT
+- [ ] support unstable channel - currently default one is stable, only reason for stable is nvidia
+- [ ] repl development for nix, C++, Rust
+- [ ] secrets and full disk encryption
+    https://github.com/numtide/nixos-anywhere/blob/main/docs/howtos.md#secrets-and-full-disk-encryption
+- [ ] Using your own kexec image
+    https://github.com/numtide/nixos-anywhere/blob/main/docs/howtos.md#using-your-own-kexec-image
+- [ ] nix build / nix shell / nix develop
+- [ ] look at this flake structure for multiple machines: https://github.com/baetheus/.nix
+- [ ] look at aya ebpf in rust = https://github.com/aya-rs/aya
+- [ ] look at https://www.omg.org/about/index.html
+
+# contribution
