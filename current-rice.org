@@ -64,7 +64,7 @@
       - [ ] orange pi5
       - [ ] intel nuc
       - [ ] rpi-4
-* Rice - Sky360 Aloha - ROS2 [2/12]
+* Rice - Sky360 Aloha - ROS2 [4/14]
 - setup ros2 nix dev env
   things to look:
   - [X] nix-ros-overlay  https://github.com/lopsided98/nix-ros-overlay/tree/develop
@@ -110,11 +110,11 @@
     #+END_SRC
 
   - [-] C++ Template
-  - [-] Gps Implementation [1/9]
+  - [-] Gps Implementation [2/10]
     - [X] read from serial
     - [ ] backof PID
-    - [ ] logger
-      - [ ] memory map file recorder from serial
+    - [X] logger
+    - [-] memory map file recorder from serial
     - [ ] base protocol
     - [ ](power safe mode, rate(hz), baudrate)
         currently i have the *U-Blox AG [u-blox 7* so will focos on that
@@ -144,12 +144,16 @@
 - [-] service can communicate with non-service and another compute on network
   - [-] a github issue https://github.com/lopsided98/nix-ros-overlay/issues/333
 - [ ] dream2nix - add support to build ros with nix-ros-overlay
-- [ ] recorder proof of concept
-  - [ ] In memory
+- [X] recorder proof of concept [1/1]
+  - [X] In memory
     - [x] Git Commiter
     - [x] Monitor
     - [x] Generate Sample Sensor Data
-    - [ ] Cleanup/Prune
+    - [X] Cleanup/Prune
+- [ ] refactor nixos services to this -
+  config = mkIf cfg.enable {
+    services.udev.packages = [ pkgs.zsa-udev-rules ];
+  };
 
 ## research
 
@@ -235,19 +239,26 @@ https://github.com/realsnick/nix-flake/blob/2078a9fd1ef895e9b1b58ef419eb57a8c3da
 - [ ] setup netboot to boot nixos-installer
 - [ ]...
 
-* Key Bindings
-Fish - FZF
-- help - `fzf_configure_bindings --help`
-- Search Directory = `ctrl+alt+F`
-- Search Git Log = `ctrl+alt+L`
-- Search Git Status = `ctrl+alt+S`
-- search History = `ctrl+R`
-- search Processes = `ctrl+alt+P`
-- search Variables = `ctrl+V`
+* helix
+- [ ] copilot
+    https://github.com/helix-editor/helix/discussions/4037
+    https://asciinema.org/a/601419
 
-* need to learn [0/3]
-- [-] helix editor
-- [-] git branch work - sync from remote / master
+* Key Bindings
+- Fish (shell) - FZF
+  - help - `fzf_configure_bindings --help`
+  - Search Directory = `ctrl+alt+F`
+  - Search Git Log = `ctrl+alt+L`
+  - Search Git Status = `ctrl+alt+S`
+  - search History = `ctrl+R`
+  - search Processes = `ctrl+alt+P`
+  - search Variables = `ctrl+V`
+- zellij (terminal)
+  - copy from helix
+- hyperland
+
+* need to learn [1/3]
+ [X] git branch work - sync from remote / master
 - [-] emacs
     - [-] org mode
 * Issues [0/4]
